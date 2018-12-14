@@ -1,7 +1,7 @@
 (ns qljs-server.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
             [ring.util.response :refer [response content-type]]))
 
@@ -16,9 +16,21 @@
   (GET "/todos" [] (-> @state
                        (response)
                        (content-type "application/json")))
+  (POST "/todos" req
+        (response {
+                   :status "Success"
+                   :id (add-todo (:body req))}))
   (route/not-found "Not Found"))
+
+(defn uuid [] (str (java.util.UUID/randomUUID)))
+
+(defn add-todo [todo]
+  (let [id (uuid)]
+    (swap! state assoc-in [:todos id] todo)
+    id))
 
 (def app
   (-> app-routes
-      (wrap-defaults site-defaults)
-      (wrap-json-response)))
+      (wrap-defaults api-defaults)
+      (wrap-json-response)
+      (wrap-json-body {:keywords? true})))
