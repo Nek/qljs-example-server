@@ -6,10 +6,21 @@
             [ring.util.response :refer [response content-type]]))
 
 (def state (atom {
-                  :todos {0 {:text "Buy milk" :area 0}
-                          1 {:text "Do dishes" :area 1}}
-                  :areas {0 {:title "Chores"}
-                          1 {:title "Today"}}}))
+                  :todos {"0" {:text "Buy milk" :area 0}
+                          "1" {:text "Do dishes" :area 1}}
+                  :areas {"0" {:title "Chores"}
+                          "1" {:title "Today"}}}))
+
+(defn uuid [] (str (java.util.UUID/randomUUID)))
+
+(defn add-todo! [todo]
+  (let [id (uuid)]
+    (swap! state assoc-in [:todos id] todo)
+    id))
+
+(defn delete-todo! [id]
+  (println id)
+  (swap! state update-in [:todos] dissoc id))
 
 (defroutes app-routes
   (GET "/" [] "Hello World")
@@ -19,15 +30,11 @@
   (POST "/todos" req
         (response {
                    :status "Success"
-                   :id (add-todo (:body req))}))
+                   :id (add-todo! (:body req))}))
+  (DELETE "/todos/:id" [id]
+          (delete-todo! id)
+          (response {:status "Success"}))
   (route/not-found "Not Found"))
-
-(defn uuid [] (str (java.util.UUID/randomUUID)))
-
-(defn add-todo [todo]
-  (let [id (uuid)]
-    (swap! state assoc-in [:todos id] todo)
-    id))
 
 (def app
   (-> app-routes
