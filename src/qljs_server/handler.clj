@@ -19,7 +19,6 @@
     id))
 
 (defn delete-todo! [id]
-  (println id)
   (swap! state update-in [:todos] dissoc id))
 
 (defroutes app-routes
