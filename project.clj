@@ -6,7 +6,8 @@
                  [compojure "1.6.1"]
                  [ring/ring-defaults "0.3.2"]
                  [org.clojure/data.json "0.2.6"]
-                 [ring/ring-json "0.5.0-beta1"]]
+                 [ring/ring-json "0.5.0-beta1"]
+                 [duratom "0.4.1"]]
   :plugins [[lein-ring "0.12.4"]]
   :ring {:handler qljs-server.handler/app}
   :profiles

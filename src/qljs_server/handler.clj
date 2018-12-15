@@ -3,13 +3,13 @@
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
-            [ring.util.response :refer [response content-type]]))
+            [ring.util.response :refer [response content-type]]
+            [duratom.core :refer [duratom]]
+            ))
 
-(def state (atom {
-                  :todos {"0" {:text "Buy milk" :area 0}
-                          "1" {:text "Do dishes" :area 1}}
-                  :areas {"0" {:title "Chores"}
-                          "1" {:title "Today"}}}))
+(def state (duratom :local-file
+                    :file-path "db"
+                    :init {:todos {} :areas {0 {:title "Chores"} 1 {:title "Today"}}}))
 
 (defn uuid [] (str (java.util.UUID/randomUUID)))
 
