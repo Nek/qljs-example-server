@@ -1,6 +1,9 @@
-# qljs-server
+# QLJS example server
 
-FIXME
+An example application for QLJS library. You need a client app to run it.
+
+Client app:
+https://github.com/Nek/qljs-todo
 
 ## Prerequisites
 
@@ -16,4 +19,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2018 FIXME
+MIT
