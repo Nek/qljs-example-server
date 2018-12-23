@@ -1,6 +1,6 @@
 # QLJS example server
 
-An example application for QLJS library. You need a client app to run it.
+An example application for QLJS library. You will need a client app to view it.
 
 Client app:
 https://github.com/Nek/qljs-todo
